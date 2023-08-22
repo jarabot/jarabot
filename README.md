@@ -6,8 +6,8 @@ sudo apt install ros-humble-serial-driver ros-humble-teleop-twist-keyboard
 
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
-git clone https://github.com/babakhani/rplidar_ros2.git
-git clone https://github.com/jebiio/jarabot.git
+git clone https://github.com/Slamtec/sllidar_ros2.git
+git clone https://github.com/jarabot/jarabot.git
 cd ~/ros2_ws
 colcon build
 
@@ -17,6 +17,8 @@ sudo apt install udev
 
 sudo udevadm control --reload-rules
 sudo udevadm trigger
+
+sudo reboot  # 리부팅하기
 
 ls /dev/     # /dev/ttyUSB0 확인
 
