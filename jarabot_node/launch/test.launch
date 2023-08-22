@@ -1,0 +1,43 @@
+<launch>
+    <arg name="port" default="/dev/mydriver" />
+    <arg name="baudrate" default="57600" />
+    <arg name="loop_rate" default="20" />
+    <arg name="linear_gain" default="500.0" />
+    <arg name="angular_gain" default="500.0" />
+    <arg name="wheel_radius" default="0.035" />
+    <arg name="wheel_base" default="0.220" />
+
+    <param name="port" value="$(arg port)" />>
+    <param name="baudrate" value="$(arg baudrate)" />
+    <param name="loop_rate" value="$(arg loop_rate)" />
+    <param name="linear_gain" value="$(arg linear_gain)" />
+    <param name="angular_gain" value="$(arg angular_gain)" />
+    <param name="wheel_radius" value="$(arg wheel_radius)" />
+    <param name="wheel_base" value="$(arg wheel_base)" />
+
+    <!-- driver -->
+    <node pkg="dronebot23" type="dronebot_driver" name="dronbot_driver" output="screen" />
+
+    <!-- controller -->
+    <node pkg="dronebot23" type="dronebot_controller" name="dronebot_controller" output="screen" />
+
+    <!-- run lidar -->
+    <include file="$(find rplidar_ros)/launch/rplidar_a1.launch" />
+
+    <!-- pub tf -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_laser"
+        args="0.025 0.0 0.225    0.0 0.0 0.0 1.0 /base_link /laser" />
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="base_link_to_base_footprint"
+        args="0.0 0.0 0.0    0.0 0.0 0.0 1.0 /base_link /base_footprint" />
+
+    <!-- odom -->
+    <node pkg="dronebot23" type="dronebot_odometry" name="dronebot_odometry" output="screen" />
+
+    <!-- teleop -->
+    <include file="$(find dronebot23)/launch/include/teleop.launch" />
+
+    <!-- <node pkg="rviz" type="rviz" name="rviz" /> -->
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find dronebot23)/rviz/test.rviz" />
+
+</launch>

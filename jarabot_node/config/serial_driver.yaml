@@ -1,0 +1,7 @@
+/**:
+  ros__parameters:
+    device_name: /dev/mydriver
+    baud_rate: 57600
+    flow_control: none
+    parity: none
+    stop_bits: "1"
