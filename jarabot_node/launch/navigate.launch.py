@@ -24,19 +24,20 @@ from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
+
 def generate_launch_description():
-    use_sim_time = LaunchConfiguration('use_sim_time', default='False')
+    use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     map_dir = LaunchConfiguration(
         'map',
         default=os.path.join(
             get_package_share_directory('jarabot_navigation2'),
             'map',
-            'map2.yaml'))
+            'map.yaml'))
 
     param_dir = LaunchConfiguration(
         'params_file',
         default=os.path.join(
-            get_package_share_directory('turtlebot3_navigation2'),
+            get_package_share_directory('jarabot_navigation2'),
             'param',
             'jarabot.yaml'))
 
@@ -45,7 +46,7 @@ def generate_launch_description():
     rviz_config_dir = os.path.join(
         get_package_share_directory('jarabot_navigation2'),
         'rviz',
-        'nav2_default_view.rviz')
+        'jarabot_navigation2.rviz')
 
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -60,7 +61,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'use_sim_time',
-            default_value='False',
+            default_value='false',
             description='Use simulation (Gazebo) clock if true'),
 
         IncludeLaunchDescription(
@@ -71,11 +72,11 @@ def generate_launch_description():
                 'params_file': param_dir}.items(),
         ),
 
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', rviz_config_dir],
-            parameters=[{'use_sim_time': use_sim_time}],
-            output='screen'),
+        # Node(
+        #     package='rviz2',
+        #     executable='rviz2',
+        #     name='rviz2',
+        #     arguments=['-d', rviz_config_dir],
+        #     parameters=[{'use_sim_time': use_sim_time}],
+        #     output='screen'),
     ])

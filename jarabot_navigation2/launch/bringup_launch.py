@@ -84,7 +84,6 @@ def generate_launch_description():
 
     declare_map_yaml_cmd = DeclareLaunchArgument(
         'map',
-        default_value='/home/jeyong/ros2_ws/src/jarabot/jarabot_navigation2/map/map.yaml',
         description='Full path to map yaml file to load')
 
     declare_use_sim_time_cmd = DeclareLaunchArgument(
@@ -129,24 +128,24 @@ def generate_launch_description():
             remappings=remappings,
             output='screen'),
 
-        # IncludeLaunchDescription(
-        #     PythonLaunchDescriptionSource(os.path.join(launch_dir, 'slam_launch.py')),
-        #     condition=IfCondition(slam),
-        #     launch_arguments={'namespace': namespace,
-        #                       'use_sim_time': use_sim_time,
-        #                       'autostart': autostart,
-        #                       'use_respawn': use_respawn,
-        #                       'params_file': params_file}.items()),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(os.path.join(launch_dir, 'slam_launch.py')),
+            condition=IfCondition(slam),
+            launch_arguments={'namespace': namespace,
+                              'use_sim_time': use_sim_time,
+                              'autostart': autostart,
+                              'use_respawn': use_respawn,
+                              'params_file': params_file}.items()),
 
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(launch_dir,
                                                        'localization_launch.py')),
             condition=IfCondition(PythonExpression(['not ', slam])),
             launch_arguments={'namespace': namespace,
-                              'map': '/home/jeyong/ros2_ws/src/jarabot/jarabot_navigation2/map/map.yaml',
+                              'map': map_yaml_file,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
-                              'params_file': '/home/jeyong/ros2_ws/src/jarabot/jarabot_navigation2/param/jarabot.yaml',
+                              'params_file': params_file,
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
@@ -156,7 +155,7 @@ def generate_launch_description():
             launch_arguments={'namespace': namespace,
                               'use_sim_time': use_sim_time,
                               'autostart': autostart,
-                              'params_file': '/home/jeyong/ros2_ws/src/jarabot/jarabot_navigation2/param/jarabot.yaml',
+                              'params_file': params_file,
                               'use_composition': use_composition,
                               'use_respawn': use_respawn,
                               'container_name': 'nav2_container'}.items()),
