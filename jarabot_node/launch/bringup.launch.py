@@ -60,7 +60,7 @@ def generate_launch_description():
             executable='jara_controller',
             parameters=[{
                 'linear_gain': 1000.0,
-                'angular_gain': 1000.0,
+                'angular_gain': 500.0,
                 'wheel_radius': LaunchConfiguration('wheel_radius'),
                 'wheel_base': LaunchConfiguration('wheel_base'),
                 'loop_rate': LaunchConfiguration('loop_rate'),

@@ -17,19 +17,25 @@ public:
     JaraController() : Node("jara_controller"),
                        button_joy_(false),
                        button_movebase_(false),
-                       keyboard_(false)
+                       keyboard_(false),
+                       target_linear_input_(1500),
+                       target_angular_input_(1500),
+                       current_linear_input_(1500),
+                       current_angular_input_(1500)
     {
         this->declare_parameter("linear_gain", 500.0);
         this->declare_parameter("angular_gain", 500.0);
         this->declare_parameter("wheel_radius", 0.035);
         this->declare_parameter("wheel_base", 0.220);
         this->declare_parameter("loop_rate", 20);
-
+        
         linear_gain_ = this->get_parameter("linear_gain").get_parameter_value().get<double>();
         angular_gain_ = this->get_parameter("angular_gain").get_parameter_value().get<double>();
         wheel_radius_ = this->get_parameter("wheel_radius").get_parameter_value().get<double>();
         wheel_base_ = this->get_parameter("wheel_base").get_parameter_value().get<double>();
         loop_rate_ = this->get_parameter("loop_rate").get_parameter_value().get<int>();
+        
+        smoother_step_ = (2000-1660)/(loop_rate_*0.5);
 
         // RCLCPP_INFO(this->get_logger(), "%f %f %f %f %i", linear_gain_, angular_gain_, wheel_radius_, wheel_base_, loop_rate_);
 
@@ -50,13 +56,41 @@ public:
 private:
     void main_loop()
     {
-        if ((!button_joy_) && (!button_movebase_) && (!keyboard_))
+        // if ((!button_joy_) && (!button_movebase_) && (!keyboard_))
         {
+            bool shouldSendCommand = false;
             auto cmd_msg = jarabot_interfaces::msg::Cmd();
-            cmd_msg.linear_input = 1500;
-            cmd_msg.angular_input = 1500;
+            if ((current_linear_input_<target_linear_input_) && (target_linear_input_-current_linear_input_)>smoother_step_)
+            {
+                current_linear_input_ += smoother_step_;
+                shouldSendCommand = true;
+            }
+            else if ((current_linear_input_>target_linear_input_) && (current_linear_input_-target_linear_input_)>smoother_step_)
+            {
+                current_linear_input_ -= smoother_step_;
+                shouldSendCommand = true;
+            }
 
-            // cmd_pub_->publish(cmd_msg);
+            if ((current_angular_input_<target_angular_input_) && (target_angular_input_-current_angular_input_)>smoother_step_)
+            {
+                current_angular_input_ += smoother_step_;
+                shouldSendCommand = true;
+            }
+            else if ((current_angular_input_>target_angular_input_) && (current_angular_input_-target_angular_input_)>smoother_step_)
+            {
+                current_angular_input_ -= smoother_step_;
+                shouldSendCommand = true;
+            }
+
+            cmd_msg.linear_input = current_linear_input_;
+            cmd_msg.angular_input = current_angular_input_;
+            
+            if(shouldSendCommand)
+            {
+                cmd_pub_->publish(cmd_msg);
+                shouldSendCommand = false;
+            }
+            
         }
     }
 
@@ -107,7 +141,10 @@ private:
         cmd_msg.linear_input = static_cast<int>(std::round(linear_input));
         cmd_msg.angular_input = static_cast<int>(std::round(angular_input));
 
-        cmd_pub_->publish(cmd_msg);
+        // cmd_pub_->publish(cmd_msg);
+
+        target_linear_input_ = static_cast<int>(std::round(linear_input));
+        target_angular_input_ = static_cast<int>(std::round(angular_input));
     }
 
 private:
@@ -118,7 +155,7 @@ private:
     rclcpp::Subscription<sensor_msgs::msg::Joy>::SharedPtr joy_sub_;
     rclcpp::TimerBase::SharedPtr mainloop_timer_;
     double linear_gain_, angular_gain_, wheel_radius_, wheel_base_;
-    int loop_rate_;
+    int loop_rate_, target_linear_input_, target_angular_input_, current_linear_input_, current_angular_input_, smoother_step_;
     bool button_joy_, button_movebase_, keyboard_;
 };
 
