@@ -58,9 +58,10 @@ def generate_launch_description():
             package='jarabot_node',
             name='jara_controller',
             executable='jara_controller',
+            output='screen',
             parameters=[{
-                'linear_gain': 500.0,
-                'angular_gain': 250.0,
+                # 'linear_gain': 1000.0,
+                # 'angular_gain': 500.0,
                 'wheel_radius': LaunchConfiguration('wheel_radius'),
                 'wheel_base': LaunchConfiguration('wheel_base'),
                 'loop_rate': LaunchConfiguration('loop_rate'),
