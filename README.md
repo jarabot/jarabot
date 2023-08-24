@@ -2,7 +2,15 @@
 ## jarabot
 ```bash
 sudo apt purge brltty
-sudo apt install ros-humble-serial-driver ros-humble-teleop-twist-keyboard ros-humble-navigation2 ros-humble-nav2-bringup ros-humble-cartographer ros-humble-cartographer-ros ros-humble-rmw-cyclonedds-cpp udev 
+sudo apt install ros-humble-serial-driver \
+ros-humble-teleop-twist-keyboard \
+ros-humble-navigation2 \
+ros-humble-nav2-bringup \
+ros-humble-cartographer \
+ros-humble-cartographer-ros \
+ros-humble-rmw-cyclonedds-cpp \
+udev
+
 echo -e "\nexport RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
 
 mkdir -p ~/ros2_ws/src
