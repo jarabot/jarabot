@@ -10,12 +10,10 @@ ros-humble-navigation2 \
 ros-humble-nav2-bringup \
 ros-humble-cartographer \
 ros-humble-cartographer-ros \
-ros-humble-rmw-cyclonedds-cpp \
 udev \
 ufw
 
 echo -e "\nexport ROS_DOMAIN_ID=<원하는 ID>" >> ~/.bashrc
-echo -e "\nexport RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
 
 mkdir -p ~/ros2_ws/src
 cd ~/ros2_ws/src
