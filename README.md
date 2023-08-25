@@ -1,8 +1,7 @@
 # jarabot
 ## jarabot
-#~/.bashrc에 source /opt/ros/humble/setup.bash 확인
 
-
+~/.bashrc에 source /opt/ros/humble/setup.bash 확인
 ```bash
 sudo apt purge brltty
 sudo apt install ros-humble-serial-driver \
@@ -12,7 +11,8 @@ ros-humble-nav2-bringup \
 ros-humble-cartographer \
 ros-humble-cartographer-ros \
 ros-humble-rmw-cyclonedds-cpp \
-udev
+udev \
+ufw
 
 echo -e "\nexport ROS_DOMAIN_ID=<원하는 ID>" >> ~/.bashrc
 echo -e "\nexport RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
@@ -25,9 +25,13 @@ cd ~/ros2_ws
 colcon build --symlink-install
 
 sudo cp ~/ros2_ws/src/jarabot/jarabot_node/rule/99-jarabot.rules /etc/udev/rules.d/
-
 sudo udevadm control --reload-rules
 sudo udevadm trigger
+
+sudo ufw enable
+sudo ufw allow 1:65535/tcp
+sudo ufw allow 1:65535/udp
+sudo ufw status # tcp, udf rule 추가 확인
 
 sudo reboot  # 리부팅하기
 
