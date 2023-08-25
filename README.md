@@ -1,5 +1,8 @@
 # jarabot
 ## jarabot
+#~/.bashrc에 source /opt/ros/humble/setup.bash 확인
+
+
 ```bash
 sudo apt purge brltty
 sudo apt install ros-humble-serial-driver \
@@ -11,6 +14,7 @@ ros-humble-cartographer-ros \
 ros-humble-rmw-cyclonedds-cpp \
 udev
 
+echo -e "\nexport ROS_DOMAIN_ID=<원하는 ID>" >> ~/.bashrc
 echo -e "\nexport RMW_IMPLEMENTATION=rmw_cyclonedds_cpp" >> ~/.bashrc
 
 mkdir -p ~/ros2_ws/src
@@ -18,7 +22,7 @@ cd ~/ros2_ws/src
 git clone https://github.com/Slamtec/sllidar_ros2.git
 git clone https://github.com/jarabot/jarabot.git
 cd ~/ros2_ws
-colcon build
+colcon build --symlink-install
 
 sudo cp ~/ros2_ws/src/jarabot/jarabot_node/rule/99-jarabot.rules /etc/udev/rules.d/
 
