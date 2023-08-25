@@ -37,19 +37,17 @@ ls /dev/     # /dev/mydriver, /dev/mylidar 확인
 
 source ~/ros2_ws/install/setup.bash
 
-ros2 launch jarabot_node bringup.launch.py
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap /cmd_vel:=/keyboard/cmd_vel
+ros2 launch jarabot_node bringup.launch.py # jarabot 터미널
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap /cmd_vel:=/keyboard/cmd_vel # jarabot 터미널
 ```
 
 ## jarabot cartographer 실행 (지도 생성)
 ```bash
-ros2 launch jarabot_node cartographer.launch.py
-rviz2 -d ~/projects/temp/jarabot/jarabot_cartographer/rviz/jarabot_cartographer.rviz
+ros2 launch jarabot_node cartographer.launch.py # jarabot 터미널
 ```
 
 ## jarabot navigation2 실행
 ```bash
-ros2 launch jarabot_node navigate.launch.py map:=$HOME/map.yaml # 절대경로 사용!
-rviz2 -d ~/projects/temp/jarabot/jarabot_navigation2/rviz/jarabot_navigation2.rviz
+ros2 launch jarabot_node navigate.launch.py map:=$HOME/map.yaml # 절대경로 사용 필수
 ```
 
