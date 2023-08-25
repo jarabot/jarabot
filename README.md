@@ -49,7 +49,7 @@ rviz2 -d ~/projects/temp/jarabot/jarabot_cartographer/rviz/jarabot_cartographer.
 
 ## jarabot navigation2 실행
 ```bash
-ros2 launch jarabot_node navigate.launch.py map:=$HOME/map.yaml
+ros2 launch jarabot_node navigate.launch.py map:=$HOME/map.yaml # 절대경로 사용!
 rviz2 -d ~/projects/temp/jarabot/jarabot_navigation2/rviz/jarabot_navigation2.rviz
 ```
 
