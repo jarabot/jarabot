@@ -36,8 +36,6 @@ sudo ufw status # tcp, udf rule 추가 확인
 sudo reboot  # 리부팅하기
 
 ls /dev/     # /dev/mydriver, /dev/mylidar 확인
-#sudo chmod 777 /dev/mydriver
-#sudo chmod 777 /dev/mylidar
 
 source ~/ros2_ws/install/setup.bash
 
