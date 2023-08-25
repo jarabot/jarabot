@@ -44,10 +44,12 @@ ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args --remap /cmd_vel
 ## jarabot cartographer 실행 (지도 생성)
 ```bash
 ros2 launch jarabot_node cartographer.launch.py # jarabot 터미널
+rviz2 -d ~/ros2_ws/src/jarabot/jarabot_cartographer/rviz/jarabot_cartographer.rviz #local pc 에서 실행
 ```
 
 ## jarabot navigation2 실행
 ```bash
 ros2 launch jarabot_node navigate.launch.py map:=$HOME/map.yaml # 절대경로 사용 필수
+rviz2 -d ~/ros2_ws/src/jarabot/jarabot_navigation2/rviz/jarabot_navigation2.rviz
 ```
 
