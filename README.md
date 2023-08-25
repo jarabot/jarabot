@@ -1,8 +1,8 @@
 # jarabot
 ## jarabot
 
-~/.bashrc에 source /opt/ros/humble/setup.bash 확인
 ```bash
+# ~/.bashrc에 source /opt/ros/humble/setup.bash 확인
 sudo apt purge brltty
 sudo apt install ros-humble-serial-driver \
 ros-humble-teleop-twist-keyboard \
